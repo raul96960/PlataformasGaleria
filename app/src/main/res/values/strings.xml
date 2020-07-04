@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ProGaleria</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="logout">Cerrar Sesión</string>
+
+    <string name="title_login">Iniciar Sesión</string>
+    <string name="title_registrarse">Registrarse</string>
+
+
+    <string name="btn_login">Ingresar</string>
+    <string name="btn_registrarse">Registrarse</string>
+    <string name="btn_tomarFoto">TomarFoto</string>
+    <string name="btn_seleccionar_Imagen">Seleccionar Imagen</string>
+
+
+    <string name="msg_para_registrarse">¿No tienes cuenta? Registrate</string>
+
+</resources>
