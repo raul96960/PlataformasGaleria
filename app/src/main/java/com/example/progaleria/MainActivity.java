@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.progaleria.SensorGPS.FotoGeoLocalizadaActivity;
+import com.example.progaleria.deteccionDeMovimiento.CamaraDeteccionMovimientoActivity;
 import com.example.progaleria.sensorOrientacionDispositivo.CamaraOrientacionActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-     startActivitySensorOrientacion();
+     startActivityDeteccionMovimiento();
     }
     public void startActivityUbicacion(){
         Intent intent = new Intent(this, FotoGeoLocalizadaActivity.class);
@@ -28,5 +29,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CamaraOrientacionActivity.class);
         startActivity(intent);
     }
+    public void startActivityDeteccionMovimiento(){
+        Intent intent = new Intent(this, CamaraDeteccionMovimientoActivity.class);
+        startActivity(intent);
+    }
 
+ /*   public void startActivitySensorDeLuz(){
+        Intent intent = new Intent(this, CamaraSensorLight.class);
+        startActivity(intent);
+    }*/
 }
