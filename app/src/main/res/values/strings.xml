@@ -15,4 +15,8 @@
 
     <string name="msg_para_registrarse">¿No tienes cuenta? Registrate</string>
 
+    <string name="galeria">Galeria de Fotos</string>
+    <string name="tomarFoto">Tomar Foto</string>
+
+
 </resources>
