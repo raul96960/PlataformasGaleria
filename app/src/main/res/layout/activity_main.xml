@@ -5,41 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center_vertical"
+
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imgFoto"
-        android:layout_width="match_parent"
-        android:layout_height="390dp" />
-
-    <TextView
-        android:id="@+id/txtLatitud"
-        android:layout_width="match_parent"
+    <Button
+        android:layout_gravity="center"
+        android:id="@+id/btnUbicacion"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="altitud" />
-
-    <TextView
-        android:id="@+id/txtLongitud"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="latitud" />
+        android:text="Sensor de Ubicacion"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        android:layout_marginVertical="5dp"
+        />
 
     <Button
-        android:id="@+id/btnTomarFoto"
-        android:layout_width="match_parent"
+        android:id="@+id/btnOrientacion"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:text="tomar foto" />
+        android:text="Orientacion del Dispositivo"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        android:layout_marginVertical="5dp"
+
+        />
 
     <Button
-        android:id="@+id/btnSubirData"
-        android:layout_width="match_parent"
+        android:id="@+id/btnDeteccionM"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:text="subir data" />
+        android:text="Deteccion de Movimiento"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        android:layout_marginVertical="5dp"
+        />
 
     <Button
-        android:id="@+id/btnSeleccionarImagen"
-        android:layout_width="match_parent"
+        android:id="@+id/btnLuz"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:text="seleccionar imagen" />
-
+        android:text="Sensor de Luz"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        android:layout_marginVertical="5dp"
+        />
 </LinearLayout>
