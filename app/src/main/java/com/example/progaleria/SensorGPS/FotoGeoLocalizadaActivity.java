@@ -68,7 +68,7 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_foto_geo_localizada);
 
         txtlatitudd = findViewById(R.id.txtLatitud);
         txtlongitudd = findViewById(R.id.txtLongitud);
