@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".deteccionDeMovimiento.CamaraDeteccionMovimientoActivity"></activity>
+        <activity android:name=".sensorLight.CamaraSensorLightActivity"></activity>
+        <activity android:name=".deteccionDeMovimiento.CamaraDeteccionMovimientoActivity" />
         <activity android:name=".sensorOrientacionDispositivo.CamaraOrientacionActivity" />
         <activity android:name=".SensorGPS.FotoGeoLocalizadaActivity" />
         <activity android:name=".MainActivity">
