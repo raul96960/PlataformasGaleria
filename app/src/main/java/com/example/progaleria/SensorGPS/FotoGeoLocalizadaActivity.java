@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.progaleria.R;
@@ -76,6 +77,7 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
         btnSeleccionarImagen = findViewById(R.id.btnSeleccionarImagen);
         btnSubirData = findViewById(R.id.btnSubirData);
 
+        solicitarPermisosDeCamara();
         permisos();
 
         btnTomarFoto.setOnClickListener(new View.OnClickListener() {
@@ -241,6 +243,13 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
         }
     }
 
+    public void solicitarPermisosDeCamara() {
+        if (ContextCompat.checkSelfPermission(FotoGeoLocalizadaActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(FotoGeoLocalizadaActivity.this,
+                    new String[]{Manifest.permission.CAMERA,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
+    }
 
 
     /* Aqui empieza la Clase Localizacion */
