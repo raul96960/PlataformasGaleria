@@ -11,10 +11,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.progaleria.MainActivity;
 import com.example.progaleria.login.Presenter.PresenterLoginImp;
 import com.example.progaleria.login.Presenter.PresenterLogin;
 import com.example.progaleria.R;
-// import com.example.progaleria.login.View.Registrarse;
+import com.example.progaleria.registrarse.View.Registrarse;
 
 public class IniciarSesion extends AppCompatActivity implements View.OnClickListener, ViewLogin {
 
@@ -87,13 +88,15 @@ public class IniciarSesion extends AppCompatActivity implements View.OnClickList
     @Override
     public void redirecToHome() {
         toastShow("LOGIN EXITO");
-   //     startActivity(new Intent(IniciarSesion.this, MainActivity.class));
-    //    finish();
+       // startActivity(new Intent(IniciarSesion.this, MainActivity.class));
+       // finish();
     }
 
     public void redirecToRegistrarse(){
-     //   Intent intent = new Intent(Login.this, Registrarse.class);
-       // startActivityForResult(intent, 200);
+          Intent intent = new Intent(IniciarSesion.this, Registrarse.class);
+          startActivity(intent);
+          //finish();
+          //startActivityForResult(intent, 200);
     }
 
     public String getEmail() {
