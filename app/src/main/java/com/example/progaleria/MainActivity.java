@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import com.example.progaleria.SensorGPS.FotoGeoLocalizadaActivity;
 import com.example.progaleria.deteccionDeMovimiento.CamaraDeteccionMovimientoActivity;
+import com.example.progaleria.login.View.IniciarSesion;
 import com.example.progaleria.sensorLight.CamaraSensorLightActivity;
 import com.example.progaleria.sensorOrientacionDispositivo.CamaraOrientacionActivity;
 
@@ -29,11 +30,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnOrientacion = findViewById(R.id.btnOrientacion);
         btnDeteccionM = findViewById(R.id.btnDeteccionM);
         btnSensorLuz = findViewById(R.id.btnLuz);
+        Button btnLogin = findViewById(R.id.btnLogin);
 
         btnUbicacion.setOnClickListener(this);
         btnOrientacion.setOnClickListener(this);
         btnDeteccionM.setOnClickListener(this);
         btnSensorLuz.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
     }
 
     @Override
@@ -51,10 +54,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnLuz:
                 startActivitySensorLight();
                 break;
+            case R.id.btnLogin:
+                startActivityLogin();
+                break;
         }
     }
     public void startActivityUbicacion(){
         Intent intent = new Intent(this, FotoGeoLocalizadaActivity.class);
+        startActivity(intent);
+    }
+
+    public void startActivityLogin(){
+        Intent intent = new Intent(this, IniciarSesion.class);
         startActivity(intent);
     }
 
