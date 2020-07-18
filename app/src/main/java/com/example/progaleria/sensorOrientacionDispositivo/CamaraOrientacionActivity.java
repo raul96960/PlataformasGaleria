@@ -40,7 +40,6 @@ public class CamaraOrientacionActivity extends AppCompatActivity implements ICam
     protected void onResume() {
         super.onResume();
         registerListener();
-
     }
 
     @Override
