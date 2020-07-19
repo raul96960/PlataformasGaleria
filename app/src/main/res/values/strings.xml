@@ -17,6 +17,11 @@
 
     <string name="galeria">Galeria de Fotos</string>
     <string name="tomarFoto">Tomar Foto</string>
+    <string name="title_activity_navigation_main">MainActivity</string>
+
+    <string name="title_inicio">Inicio</string>
+    <string name="title_galeria">Galeria</string>
+    <string name="title_ubicacion">Ubicación</string>
 
 
 </resources>

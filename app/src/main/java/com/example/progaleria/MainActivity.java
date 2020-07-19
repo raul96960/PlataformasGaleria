@@ -10,6 +10,7 @@ import com.example.progaleria.deteccionDeMovimiento.CamaraDeteccionMovimientoAct
 import com.example.progaleria.login.View.IniciarSesion;
 import com.example.progaleria.sensorLight.CamaraSensorLightActivity;
 import com.example.progaleria.sensorOrientacionDispositivo.CamaraOrientacionActivity;
+import com.example.progaleria.fragments.NavigationMain;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         btnUbicacion = findViewById(R.id.btnUbicacion);
         btnOrientacion = findViewById(R.id.btnOrientacion);
@@ -43,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnUbicacion:
-                startActivityUbicacion();
+                startActivityFragments();
+               // startActivityUbicacion();
                 break;
             case R.id.btnOrientacion:
                 startActivitySensorOrientacion();
@@ -61,6 +64,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     public void startActivityUbicacion(){
         Intent intent = new Intent(this, FotoGeoLocalizadaActivity.class);
+        startActivity(intent);
+    }
+    public void startActivityFragments(){
+        Intent intent = new Intent(this, NavigationMain.class);
         startActivity(intent);
     }
 
