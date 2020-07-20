@@ -114,7 +114,7 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
     public void subiendoData(){
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference folferRef  = storageRef.child("FOTOS");
+        StorageReference folferRef  = storageRef.child("usuario").child("FOTOS");
         final StorageReference fotoRef = folferRef.child(new Date().toString());
 
         if(imagenUri != null) {
@@ -125,7 +125,6 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
                     if (!task.isSuccessful()){
                         throw task.getException();
                     }
-
                     return fotoRef.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -134,7 +133,6 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
 
                     if (task.isSuccessful()){
                         Uri uri = task.getResult();
-                        Log.e("URI", uri.toString()); //url para descargar foto
 
                         Foto foto = new Foto();
                         foto.setLatitud(txtlatitudd.getText().toString());
