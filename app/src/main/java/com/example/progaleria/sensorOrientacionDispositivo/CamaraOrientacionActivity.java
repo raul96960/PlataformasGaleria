@@ -54,6 +54,7 @@ public class CamaraOrientacionActivity extends AppCompatActivity implements ICam
     protected void onPause() {
         super.onPause();
         unregisterListener();
+        message.cancel();
     }
 
     public void abrirCamaraPersonalizada() {

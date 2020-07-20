@@ -54,6 +54,7 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     protected void onPause() {
         super.onPause();
         unregisterListener();
+        message.cancel();
     }
 
     public void abrirCamaraPersonalizada(){
