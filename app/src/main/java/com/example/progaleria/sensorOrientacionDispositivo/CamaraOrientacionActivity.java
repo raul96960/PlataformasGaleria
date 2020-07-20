@@ -10,6 +10,7 @@ import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -18,7 +19,7 @@ import com.example.progaleria.R;
 
 
 public class CamaraOrientacionActivity extends AppCompatActivity implements ICamaraSensorOrientation {
-    private static final String MENSAJE_TOAST = "Por Favor ponga en modo Horizontal su dispositivo para tener un mejor panorama";
+    private static final String TOAST_MENSAJE = "Por Favor ponga en modo Horizontal su dispositivo para tener un mejor panorama";
     private SensorManager sensorManager;
     private SensorOrientacion sensorOrientacion;
 
@@ -26,6 +27,7 @@ public class CamaraOrientacionActivity extends AppCompatActivity implements ICam
     private FrameLayout frameLayout;
     private ShowCamera showCamera;
 
+    private Toast message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +36,13 @@ public class CamaraOrientacionActivity extends AppCompatActivity implements ICam
         solicitarPermisosDeCamara();
         abrirCamaraPersonalizada();
         habilitarSensorDeOrientacion();
+
+        message = Toast.makeText(this, TOAST_MENSAJE, Toast.LENGTH_SHORT);
+        message.setGravity(Gravity.CENTER, 0, 0);
+
+
     }
+
 
     @Override
     protected void onResume() {
@@ -69,16 +77,19 @@ public class CamaraOrientacionActivity extends AppCompatActivity implements ICam
     @Override
     public void handleOrientationDevice(int orientation) {
         if (isVerticalDevice(orientation)) {
-            colocarElDispositivoHorrizontalmente();
+            message.show();
+        } else {
+            message.cancel();
         }
     }
     /* Le sugerimos al usuario que es MAS CONVENIENTE TOMAR LAS FOTOS cuando el dispositivo se encuentre horizontalmente
      * Para que pueda apreciar el paisaje de una mejor manera.
      * */
     private void colocarElDispositivoHorrizontalmente(){
-        Toast toast = Toast.makeText(this, MENSAJE_TOAST, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
+     Toast.makeText(this, "dsas", Toast.LENGTH_SHORT).show();
+     //   toast.setGravity(Gravity.CENTER, 0, 0);
+     //   toast.show();
+        Log.i("MSG","Colocar Dispositivo Horizontalmente");
     }
 
     private boolean isVerticalDevice(int orientation) {

@@ -5,6 +5,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.ExifInterface;
+import android.util.Log;
 
 public class SensorOrientacion implements SensorEventListener {
 
@@ -58,7 +59,9 @@ public class SensorOrientacion implements SensorEventListener {
 
             orientation = calculateOrientation();
             camara.handleOrientationDevice(orientation);
+
         }
+
 
     }
 
