@@ -9,59 +9,5 @@
 
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_gravity="center"
-        android:id="@+id/btnUbicacion"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Sensor de Ubicacion"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorWhite"
-        android:layout_marginVertical="5dp"
-        />
 
-    <Button
-        android:id="@+id/btnOrientacion"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Orientacion del Dispositivo"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorWhite"
-        android:layout_marginVertical="5dp"
-
-        />
-
-    <Button
-        android:id="@+id/btnDeteccionM"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Deteccion de Movimiento"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorWhite"
-        android:layout_marginVertical="5dp"
-        />
-
-    <Button
-        android:id="@+id/btnLuz"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Sensor de Luz"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorWhite"
-        android:layout_marginVertical="5dp"
-        />
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="300dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:text="Iniciar Sesion"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorWhite"
-        android:layout_marginVertical="5dp"
-        />
 </LinearLayout>

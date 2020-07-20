@@ -1,6 +1,7 @@
 package com.example.progaleria.login.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.progaleria.MainActivity;
+import com.example.progaleria.fragments.NavigationMain;
 import com.example.progaleria.login.Presenter.PresenterLoginImp;
 import com.example.progaleria.login.Presenter.PresenterLogin;
 import com.example.progaleria.R;
@@ -88,8 +90,8 @@ public class IniciarSesion extends AppCompatActivity implements View.OnClickList
     @Override
     public void redirecToHome() {
         toastShow("LOGIN EXITO");
-       // startActivity(new Intent(IniciarSesion.this, MainActivity.class));
-       // finish();
+        startActivity(new Intent(IniciarSesion.this, NavigationMain.class));
+        finish();
     }
 
     public void redirecToRegistrarse(){
