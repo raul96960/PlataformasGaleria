@@ -40,9 +40,9 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.Galeriav
 
     @Override
     public void onBindViewHolder(@NonNull final GaleriaviewHolder holder, int position) {
-        holder.txtTitulo.setText("Titulo "+listaFotosGaleria.get(position).getNombreFOTO());
-        holder.txtLatitud.setText("Latitud "+listaFotosGaleria.get(position).getLatitud());
-        holder.txtLongitud.setText("longitud "+listaFotosGaleria.get(position).getLongitud());
+        //holder.txtTitulo.setText("TITULO: "+listaFotosGaleria.get(position).getNombreFOTO());
+        holder.txtLatitud.setText("LATITUD: "+listaFotosGaleria.get(position).getLatitud());
+        holder.txtLongitud.setText("LONGITUD: "+listaFotosGaleria.get(position).getLongitud());
         //holder.imgFoto.setImageResource(R.drawable.ic_launcher_background);
 
         Glide.with(mContext)
@@ -87,14 +87,14 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.Galeriav
      */
     public class GaleriaviewHolder extends RecyclerView.ViewHolder{
         public ImageView imgFoto;
-        public TextView txtTitulo;
+        //public TextView txtTitulo;
         public TextView txtLatitud;
         public TextView txtLongitud;
         public ProgressBar mProgresbar;
 
         public GaleriaviewHolder(@NonNull View itemView) {
             super(itemView);
-            this.txtTitulo = itemView.findViewById(R.id.txt_titulo);
+            //this.txtTitulo = itemView.findViewById(R.id.txt_titulo);
             this.txtLatitud = itemView.findViewById(R.id.txt_latitud);
             this.txtLongitud = itemView.findViewById(R.id.txt_longitud);
             this.imgFoto = itemView.findViewById(R.id.img_foto);

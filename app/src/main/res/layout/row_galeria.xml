@@ -7,36 +7,61 @@
     android:orientation="vertical"
     app:cardCornerRadius="5dp">
 
-    <TextView
-        android:id="@+id/txt_titulo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="imagen"
-        android:textSize="14dp"/>
-    <TextView
-        android:id="@+id/txt_latitud"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="imagen"
-        android:textSize="14dp"/>
-    <TextView
-        android:id="@+id/txt_longitud"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="imagen"
-        android:textSize="14dp"/>
-
-    <ImageView
-        android:id="@+id/img_foto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"/>
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal">
+            <ImageView
+                android:id="@+id/img_foto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"/>
 
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|bottom"
+                android:background="@android:drawable/screen_background_dark_transparent"
+                android:orientation="vertical">
+                <!--
+                <TextView
+                    android:id="@+id/txt_titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Titulo"
+                    android:padding="16dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+                -->
+                <TextView
+                    android:id="@+id/txt_latitud"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="imagen"
+                    android:padding="16dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/txt_longitud"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="imagen"
+                    android:padding="16dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
 
 </LinearLayout>
-

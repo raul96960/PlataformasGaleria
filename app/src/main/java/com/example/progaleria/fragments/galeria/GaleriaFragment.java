@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class DashboardFragment extends Fragment {
+public class GaleriaFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private GaleriaAdapter mGaleriaAdapter;

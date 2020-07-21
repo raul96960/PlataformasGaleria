@@ -114,7 +114,7 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
     public void subiendoData(){
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference folferRef  = storageRef.child("usuario").child("FOTOS");
+        StorageReference folferRef  = storageRef.child("FOTOS");
         final StorageReference fotoRef = folferRef.child(new Date().toString());
 
         if(imagenUri != null) {
