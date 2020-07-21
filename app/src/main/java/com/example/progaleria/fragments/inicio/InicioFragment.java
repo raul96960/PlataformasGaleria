@@ -18,7 +18,7 @@ import com.example.progaleria.login.View.IniciarSesion;
 import com.example.progaleria.sensorLight.CamaraSensorLightActivity;
 import com.example.progaleria.sensorOrientacionDispositivo.CamaraOrientacionActivity;
 
-public class HomeFragment extends Fragment implements  View.OnClickListener{
+public class InicioFragment extends Fragment implements  View.OnClickListener{
 
     private Button btnUbicacion;
     private Button btnOrientacion;

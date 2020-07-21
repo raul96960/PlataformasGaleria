@@ -22,6 +22,7 @@
     <string name="title_inicio">Inicio</string>
     <string name="title_galeria">Galeria</string>
     <string name="title_ubicacion">Ubicación</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

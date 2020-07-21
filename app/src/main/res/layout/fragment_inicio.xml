@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    tools:context=".fragments.inicio.HomeFragment">
+    tools:context=".fragments.inicio.InicioFragment">
 
     <Button
         android:layout_gravity="center"
