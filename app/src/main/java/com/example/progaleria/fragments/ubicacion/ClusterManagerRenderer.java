@@ -25,58 +25,71 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
-
-    private final int IMAGE_DEFAULT_MARKET = R.drawable.image_marker_default;
+    private final int IMAGE_DEFAULT_MARKER = R.drawable.image_marker_default;
     private final IconGenerator iconGenerator;
     private ImageView imageView;
-    private final int markerWith;
-    private final int getMarkerHeight;
     private Context context;
-
-
 
     public ClusterManagerRenderer(Context context, GoogleMap map, ClusterManager<ClusterMarker> clusterManager) {
         super(context, map, clusterManager);
         this.context = context;
         iconGenerator = new IconGenerator(context.getApplicationContext());
-        imageView = new ImageView(context.getApplicationContext());
-        markerWith = (int)context.getResources().getDimension(R.dimen.marker_image_with);
-        getMarkerHeight = (int)context.getResources().getDimension(R.dimen.marker_image_height);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(markerWith,getMarkerHeight));
-
-        int padding =  (int)context.getResources().getDimension(R.dimen.marker_image_padding);
-        imageView.setPadding(padding, padding, padding, padding);
+        imageViewCreate();
         iconGenerator.setContentView(imageView);
+
     }
 
     @Override
     protected void onBeforeClusterItemRendered(@NonNull ClusterMarker item, @NonNull MarkerOptions markerOptions) {
-
-        imageView.setImageResource(IMAGE_DEFAULT_MARKET);
+        imageView.setImageResource(IMAGE_DEFAULT_MARKER);
         Bitmap icon = iconGenerator.makeIcon();
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());
     }
 
     @Override
     protected void onClusterItemRendered(@NonNull ClusterMarker clusterItem, @NonNull final Marker marker) {
+        renderizarFotosAsync(clusterItem, marker);
+    }
+    private void renderizarFotosAsync(ClusterMarker clusterItem, final Marker marker){
         Glide.with(context)
-                .load(clusterItem.getFoto().getUrlIMG())
+                .load(clusterItem.getImageUrl())
                 .centerCrop()
-                .error(IMAGE_DEFAULT_MARKET)
+                .error(IMAGE_DEFAULT_MARKER)
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        imageView.setImageDrawable(resource);
-                        Bitmap icon = iconGenerator.makeIcon();
-                        marker.setIcon(BitmapDescriptorFactory.fromBitmap(icon));
+                        actualizarFotoMarker(resource, marker);
                     }
                 });
     }
 
-
+    private void actualizarFotoMarker(Drawable resource, Marker marker){
+        imageView.setImageDrawable(resource);
+        Bitmap icon = iconGenerator.makeIcon();
+        marker.setIcon(BitmapDescriptorFactory.fromBitmap(icon));
+    }
 
     @Override
     protected boolean shouldRenderAsCluster(@NonNull Cluster<ClusterMarker> cluster) {
         return false;
+    }
+
+    private void imageViewCreate(){
+        imageView = new ImageView(context.getApplicationContext());;
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(markerWith(), getMarkerHeight()));
+        int padding =  padding();
+        imageView.setPadding(padding, padding, padding, padding);
+    }
+
+    private int markerWith(){
+        return (int)context.getResources().getDimension(R.dimen.marker_image_with);
+    }
+
+    private int getMarkerHeight(){
+        return (int)context.getResources().getDimension(R.dimen.marker_image_height);
+    }
+
+    private int padding(){
+        return (int)context.getResources().getDimension(R.dimen.marker_image_padding);
     }
 }
