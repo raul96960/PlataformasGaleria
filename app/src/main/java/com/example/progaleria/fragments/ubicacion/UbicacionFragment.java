@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.clustering.ClusterManager;
 
 
 import java.util.ArrayList;
@@ -47,6 +48,10 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
     private LocationManager ubicacion;
     private ArrayList<FotoGaleria> mFotos;
     private DatabaseReference mDatabaseRef;
+
+    private ClusterManager<ClusterMarker> mClusterManager;
+    private ClusterManagerRenderer mClusterManagerRenderer;
+    private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +89,47 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         return true;
     }
 
+   public void addMarkets(ArrayList<FotoGaleria> fotos){
+        if(mClusterManager == null){
+            mClusterManager = new ClusterManager<ClusterMarker>(getActivity().getApplicationContext(), mMap);
+        }
+        if(mClusterManagerRenderer == null){
+            mClusterManagerRenderer = new ClusterManagerRenderer(getActivity(), mMap, mClusterManager);
+            mClusterManager.setRenderer(mClusterManagerRenderer);
+        }
+
+
+       for(FotoGaleria foto: fotos){
+
+           Log.d("TAG", "addMapMarkers: location: ");
+           try{
+               String snippet = "Descripcion";
+
+               int avatar = R.drawable.cartman_cop; // set the default avatar
+               try{
+                   //avatar = Integer.parseInt(userLocation.getUser().getAvatar());
+               }catch (NumberFormatException e){
+                   //Log.d(TAG, "addMapMarkers: no avatar for " + userLocation.getUser().getUsername() + ", setting default.");
+               }
+
+               double latitud = Double.parseDouble(foto.getLatitud());
+               double longitud = Double.parseDouble(foto.getLongitud());
+               LatLng ubicacion = new LatLng(latitud, longitud);
+
+               ClusterMarker newClusterMarker = new ClusterMarker(ubicacion,"Foto",snippet, avatar, foto);
+               mClusterManager.addItem(newClusterMarker);
+               mClusterMarkers.add(newClusterMarker);
+
+           }catch (NullPointerException e){
+               Log.e("TAG", "addMapMarkers: NullPointerException: " + e.getMessage() );
+           }
+
+       }
+       mClusterManager.cluster();
+
+    }
+
+
     @Override
     public void onMyLocationClick(@NonNull Location location) {
         Toast.makeText(this.getContext(), "Current location:\n" + location, Toast.LENGTH_LONG).show();
@@ -113,14 +159,15 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
                         }
 
 
-                        for(FotoGaleria foto: mFotos) {
+                        /*for(FotoGaleria foto: mFotos) {
                             Log.i("Log", foto.getLatitud()+" "+foto.getLongitud());
                             double latitud = Double.parseDouble(foto.getLatitud());
                             double longitud = Double.parseDouble(foto.getLongitud());
                             LatLng ubicacionA = new LatLng(latitud, longitud);
                             MarkerOptions positionMarkerD = new MarkerOptions().position(ubicacionA).title(latitud+" "+longitud).snippet("Descripcion Breve");
                             mMap.addMarker(positionMarkerD);
-}
+}                       */
+                        addMarkets(mFotos);
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {

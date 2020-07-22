@@ -45,7 +45,7 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.Galeriav
         holder.txtLongitud.setText("LONGITUD: "+listaFotosGaleria.get(position).getLongitud());
         //holder.imgFoto.setImageResource(R.drawable.ic_launcher_background);
 
-        Glide.with(mContext)
+         Glide.with(mContext)
                 .load(listaFotosGaleria.get(position).getUrlIMG())
                 .centerCrop()
                 .error(R.drawable.ic_launcher_background)
