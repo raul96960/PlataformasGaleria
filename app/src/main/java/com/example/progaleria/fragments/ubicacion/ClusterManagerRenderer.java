@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -25,11 +26,13 @@ import androidx.annotation.Nullable;
 
 class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
 
+    private final int IMAGE_DEFAULT_MARKET = R.drawable.image_marker_default;
     private final IconGenerator iconGenerator;
     private ImageView imageView;
     private final int markerWith;
     private final int getMarkerHeight;
     private Context context;
+
 
 
     public ClusterManagerRenderer(Context context, GoogleMap map, ClusterManager<ClusterMarker> clusterManager) {
@@ -39,7 +42,7 @@ class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
         imageView = new ImageView(context.getApplicationContext());
         markerWith = (int)context.getResources().getDimension(R.dimen.marker_image_with);
         getMarkerHeight = (int)context.getResources().getDimension(R.dimen.marker_image_height);
-        imageView.setLayoutParams(new ViewGroup.LayoutParams(markerWith, getMarkerHeight));
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(markerWith,getMarkerHeight));
 
         int padding =  (int)context.getResources().getDimension(R.dimen.marker_image_padding);
         imageView.setPadding(padding, padding, padding, padding);
@@ -49,7 +52,7 @@ class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
     @Override
     protected void onBeforeClusterItemRendered(@NonNull ClusterMarker item, @NonNull MarkerOptions markerOptions) {
 
-        imageView.setImageResource(R.drawable.cartman_cop);
+        imageView.setImageResource(IMAGE_DEFAULT_MARKET);
         Bitmap icon = iconGenerator.makeIcon();
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(item.getTitle());
     }
@@ -59,7 +62,7 @@ class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
         Glide.with(context)
                 .load(clusterItem.getFoto().getUrlIMG())
                 .centerCrop()
-                .error(R.drawable.cartman_cop)
+                .error(IMAGE_DEFAULT_MARKET)
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -69,6 +72,8 @@ class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
                     }
                 });
     }
+
+
 
     @Override
     protected boolean shouldRenderAsCluster(@NonNull Cluster<ClusterMarker> cluster) {

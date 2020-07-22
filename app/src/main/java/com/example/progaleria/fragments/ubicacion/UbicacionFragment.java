@@ -2,9 +2,11 @@ package com.example.progaleria.fragments.ubicacion;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -12,12 +14,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.progaleria.R;
 import com.example.progaleria.fragments.galeria.FotoGaleria;
 import com.example.progaleria.fragments.galeria.GaleriaAdapter;
@@ -37,6 +44,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 
 
@@ -72,8 +80,8 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         int zoom = 17;
 
         LatLng ubicacion = new LatLng(-16.30 , -71.62);
-        MarkerOptions positionMarker = new MarkerOptions().position(ubicacion).title("Mi Ubicacion").snippet("Descripcion Breve");
-        mMap.addMarker(positionMarker);
+//        MarkerOptions positionMarker = new MarkerOptions().position(ubicacion).title("Mi Ubicacion").snippet("Descripcion Breve");
+ //       mMap.addMarker(positionMarker);
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, zoom));
 
@@ -104,19 +112,11 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
            Log.d("TAG", "addMapMarkers: location: ");
            try{
                String snippet = "Descripcion";
-
-               int avatar = R.drawable.cartman_cop; // set the default avatar
-               try{
-                   //avatar = Integer.parseInt(userLocation.getUser().getAvatar());
-               }catch (NumberFormatException e){
-                   //Log.d(TAG, "addMapMarkers: no avatar for " + userLocation.getUser().getUsername() + ", setting default.");
-               }
-
                double latitud = Double.parseDouble(foto.getLatitud());
                double longitud = Double.parseDouble(foto.getLongitud());
                LatLng ubicacion = new LatLng(latitud, longitud);
 
-               ClusterMarker newClusterMarker = new ClusterMarker(ubicacion,"Foto",snippet, avatar, foto);
+               ClusterMarker newClusterMarker = new ClusterMarker(ubicacion,"Ver Foto",snippet, foto);
                mClusterManager.addItem(newClusterMarker);
                mClusterMarkers.add(newClusterMarker);
 
@@ -125,6 +125,30 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
            }
 
        }
+       mClusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterMarker>() {
+           @Override
+           public void onClusterItemInfoWindowClick(ClusterMarker item) {
+               AlertDialog.Builder popupDialogBuilder = new AlertDialog.Builder(getContext());
+               final ImageView popupImv = new ImageView(getContext());
+                popupImv.setAdjustViewBounds(true);
+               Glide.with(getContext())
+                       .load(item.getFoto().getUrlIMG())
+                       .centerCrop()
+                       .error(R.drawable.image_marker_default)
+                       .into(new SimpleTarget<Drawable>() {
+                           @Override
+                           public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                               popupImv.setImageDrawable(resource);
+                           }
+                       });
+               popupDialogBuilder.setView(popupImv);
+               AlertDialog alertDialog = popupDialogBuilder.create();
+               alertDialog.show();
+           }
+       });
+
+
+
        mClusterManager.cluster();
 
     }
