@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,18 +58,12 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         mFotos = new ArrayList<>();
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("FOTOS");
 
-
-
-
-
         return root;
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this.getContext(), "MyLocation button clicked", Toast.LENGTH_SHORT).show();
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
+        Toast.makeText(this.getContext(), "Ubicacion Aproximada", Toast.LENGTH_SHORT).show();
         int zoom = 17;
 
         LatLng ubicacion = new LatLng(-16.30 , -71.62);
@@ -111,29 +106,21 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                             FotoGaleria lasFotos = postSnapshot.getValue(FotoGaleria.class);
-
                             String nombre = postSnapshot.child("latitud").getValue().toString();
                             String url = postSnapshot.child("url").getValue().toString();
                             lasFotos.setUrlIMG(url);
                             mFotos.add(lasFotos);
                         }
 
-                        if (dataSnapshot.exists()) {
-                            final LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                            for (FotoGaleria aviso : mFotos) {
 
-                                Log.e("DATO BASe DE DATOS", aviso.getLatitud() + " "+aviso.getLongitud());
-                                double latitud = Double.parseDouble(aviso.getLatitud());
-                                double longitud = Double.parseDouble(aviso.getLongitud());
-                                //LatLng ubicacion = new LatLng(latitud, longitud);
-                                //MarkerOptions positionMarker = new MarkerOptions().position(ubicacion).title("Foto").snippet("Imagen");
-                                //mMap.addMarker(positionMarker);
-                            }
-                           // LatLngBounds bounds = builder.build();
-                           // CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
-                            //mMap.moveCamera(cu);
-                            //mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-                        }
+                        for(FotoGaleria foto: mFotos) {
+                            Log.i("Log", foto.getLatitud()+" "+foto.getLongitud());
+                            double latitud = Double.parseDouble(foto.getLatitud());
+                            double longitud = Double.parseDouble(foto.getLongitud());
+                            LatLng ubicacionA = new LatLng(latitud, longitud);
+                            MarkerOptions positionMarkerD = new MarkerOptions().position(ubicacionA).title(latitud+" "+longitud).snippet("Descripcion Breve");
+                            mMap.addMarker(positionMarkerD);
+}
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -144,6 +131,7 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         });
 
     }
+
 
 
 }
