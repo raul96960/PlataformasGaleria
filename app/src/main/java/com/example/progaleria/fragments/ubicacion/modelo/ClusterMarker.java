@@ -1,4 +1,4 @@
-package com.example.progaleria.fragments.ubicacion;
+package com.example.progaleria.fragments.ubicacion.modelo;
 
 import com.example.progaleria.fragments.galeria.FotoGaleria;
 import com.google.android.gms.maps.model.LatLng;

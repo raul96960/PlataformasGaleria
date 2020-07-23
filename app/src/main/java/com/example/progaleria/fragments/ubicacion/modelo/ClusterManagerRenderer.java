@@ -1,10 +1,8 @@
-package com.example.progaleria.fragments.ubicacion;
+package com.example.progaleria.fragments.ubicacion.modelo;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -24,7 +22,7 @@ import com.google.maps.android.ui.IconGenerator;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
+public class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
     private final int IMAGE_DEFAULT_MARKER = R.drawable.image_marker_default;
     private final IconGenerator iconGenerator;
     private ImageView imageView;
@@ -36,7 +34,6 @@ class ClusterManagerRenderer extends DefaultClusterRenderer<ClusterMarker> {
         iconGenerator = new IconGenerator(context.getApplicationContext());
         imageViewCreate();
         iconGenerator.setContentView(imageView);
-
     }
 
     @Override

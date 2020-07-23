@@ -1,11 +1,9 @@
-package com.example.progaleria.fragments.ubicacion;
+package com.example.progaleria.fragments.ubicacion.vista;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,30 +17,26 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.progaleria.R;
-import com.example.progaleria.fragments.galeria.FotoGaleria;
+import com.example.progaleria.fragments.ubicacion.modelo.ClusterManagerRenderer;
+import com.example.progaleria.fragments.ubicacion.modelo.ClusterMarker;
+import com.example.progaleria.fragments.ubicacion.presentador.PresentadorImp;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class UbicacionFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
+public class UbicacionFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, Vista {
 
     private GoogleMap mMap;
-    private ArrayList<FotoGaleria> mFotos;
-    private DatabaseReference mDatabaseRef;
     private ClusterManager<ClusterMarker> mClusterManager;
     private ClusterManagerRenderer mClusterManagerRenderer;
-    private ArrayList<ClusterMarker> mClusterMarkers = new ArrayList<>();
+
+    private PresentadorImp presentador;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -51,9 +45,8 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
 
-        mFotos = new ArrayList<>();
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("FOTOS");
 
+        presentador = new PresentadorImp(this);
         return root;
     }
 
@@ -64,7 +57,6 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
 
         LatLng ubicacion = new LatLng(-16.30 , -71.62);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, zoom));
-
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(ubicacion)      // Sets the center of the map to location user
                 .zoom(17)                   // Sets the zoom
@@ -74,45 +66,6 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         return true;
-    }
-
-   public void addMarkets(ArrayList<FotoGaleria> fotos){
-        if(mClusterManager == null){
-            mClusterManager = new ClusterManager<ClusterMarker>(getActivity().getApplicationContext(), mMap);
-        }
-        if(mClusterManagerRenderer == null){
-            mClusterManagerRenderer = new ClusterManagerRenderer(getActivity(), mMap, mClusterManager);
-            mClusterManager.setRenderer(mClusterManagerRenderer);
-        }
-
-
-       for(FotoGaleria foto: fotos){
-
-           Log.d("TAG", "addMapMarkers: location: ");
-           try{
-               String snippet = "Descripcion";
-               double latitud = Double.parseDouble(foto.getLatitud());
-               double longitud = Double.parseDouble(foto.getLongitud());
-               LatLng ubicacion = new LatLng(latitud, longitud);
-
-               ClusterMarker newClusterMarker = new ClusterMarker(ubicacion, foto.getUrlIMG());
-               mClusterManager.addItem(newClusterMarker);
-               mClusterMarkers.add(newClusterMarker);
-
-           }catch (NullPointerException e){
-               Log.e("TAG", "addMapMarkers: NullPointerException: " + e.getMessage() );
-           }
-
-       }
-       mClusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterMarker>() {
-           @Override
-           public void onClusterItemInfoWindowClick(ClusterMarker item) {
-              modalDialogImage(item);
-           }
-       });
-
-       mClusterManager.cluster();
-
     }
 
     @SuppressLint("MissingPermission")
@@ -126,27 +79,37 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-                mDatabaseRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            FotoGaleria lasFotos = postSnapshot.getValue(FotoGaleria.class);
-                            String nombre = postSnapshot.child("latitud").getValue().toString();
-                            String url = postSnapshot.child("url").getValue().toString();
-                            lasFotos.setUrlIMG(url);
-                            mFotos.add(lasFotos);
-                        }
-
-                        addMarkets(mFotos);
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(getContext(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                presentador.obtenerFotos();
             }
         });
 
+    }
+
+    @Override
+    public void showMarkersFotosMap(List<ClusterMarker> markers) {
+        if(mClusterManager == null){
+            mClusterManager = new ClusterManager<ClusterMarker>(getActivity().getApplicationContext(), mMap);
+        }
+        if(mClusterManagerRenderer == null){
+            mClusterManagerRenderer = new ClusterManagerRenderer(getActivity(), mMap, mClusterManager);
+            mClusterManager.setRenderer(mClusterManagerRenderer);
+        }
+
+        for(ClusterMarker marker: markers){
+                mClusterManager.addItem(marker);
+        }
+
+        onMarkerItemListener();
+        mClusterManager.cluster();
+    }
+
+    private void onMarkerItemListener(){
+        mClusterManager.setOnClusterItemInfoWindowClickListener(new ClusterManager.OnClusterItemInfoWindowClickListener<ClusterMarker>() {
+            @Override
+            public void onClusterItemInfoWindowClick(ClusterMarker item) {
+                modalDialogImage(item);
+            }
+        });
     }
 
     private void modalDialogImage(ClusterMarker item){
@@ -168,5 +131,9 @@ public class UbicacionFragment extends Fragment implements OnMapReadyCallback, G
         alertDialog.show();
     }
 
+    @Override
+    public void toastError(String mensaje) {
+        Toast.makeText(getContext(), mensaje,Toast.LENGTH_LONG).show();
+    }
 
 }
