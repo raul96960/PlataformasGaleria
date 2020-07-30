@@ -23,7 +23,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:requestLegacyExternalStorage="true"
+        >
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -43,7 +45,7 @@
         <activity android:name=".registrarse.View.Registrarse" />
         <activity android:name=".login.View.IniciarSesion" />
         <activity android:name=".sensorLight.CamaraSensorLightActivity" />
-        <activity android:name=".deteccionDeMovimiento.CamaraDeteccionMovimientoActivity" />
+        <activity android:name=".deteccionDeMovimiento.vista.CamaraDeteccionMovimientoActivity" />
         <activity android:name=".sensorOrientacionDispositivo.CamaraOrientacionActivity" />
         <activity android:name=".SensorGPS.FotoGeoLocalizadaActivity" />
         <activity android:name=".MainActivity">

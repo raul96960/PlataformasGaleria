@@ -12,9 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.progaleria.R;
 import com.example.progaleria.SensorGPS.FotoGeoLocalizadaActivity;
-import com.example.progaleria.deteccionDeMovimiento.CamaraDeteccionMovimientoActivity;
-import com.example.progaleria.fragments.NavigationMain;
-import com.example.progaleria.login.View.IniciarSesion;
+import com.example.progaleria.deteccionDeMovimiento.vista.CamaraDeteccionMovimientoActivity;
 import com.example.progaleria.sensorLight.CamaraSensorLightActivity;
 import com.example.progaleria.sensorOrientacionDispositivo.CamaraOrientacionActivity;
 

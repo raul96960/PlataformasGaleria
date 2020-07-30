@@ -32,6 +32,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.progaleria.R;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -253,7 +254,6 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
     /* Aqui empieza la Clase Localizacion */
     public class Localizacion implements LocationListener {
         FotoGeoLocalizadaActivity mainActivity;
-
         public FotoGeoLocalizadaActivity getMainActivity() {
             return mainActivity;
         }
@@ -266,11 +266,7 @@ public class FotoGeoLocalizadaActivity extends AppCompatActivity {
         public void onLocationChanged(Location loc) {
             // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
             // debido a la deteccion de un cambio de ubicacion
-            latitud = String.valueOf(loc.getLatitude());
-            longitud = String.valueOf(loc.getLongitude());
-            txtlatitudd.setText(latitud);
-            txtlongitudd.setText(longitud);
-
+            LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
         }
 
         @Override

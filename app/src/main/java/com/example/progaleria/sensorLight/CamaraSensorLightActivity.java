@@ -53,7 +53,12 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
             @Override
             public void onClick(View view) {
                 if (camera != null) {
-                    camera.takePicture(null, null, mPictureCallBack);
+                    camera.takePicture(null, new PictureCallback() {
+                        @Override
+                        public void onPictureTaken(byte[] bytes, Camera camera) {
+
+                        }
+                    }, mPictureCallBack);
                 }
             }
         });

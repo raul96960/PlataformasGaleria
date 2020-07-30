@@ -1,4 +1,4 @@
-package com.example.progaleria.deteccionDeMovimiento;
+package com.example.progaleria.deteccionDeMovimiento.vista;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -36,7 +36,9 @@ public class SensorMovimiento implements SensorEventListener  {
         camara.handleAceleracionTotal(aceleracionTotal);
     }
 
-
+    /* Filtro de Paso Alto, para enfatizar mas los cambios bruscos de aceleracion
+     * del dispositivo
+    */
     private float highPass(float current, float last, float filtered){
         return a * (filtered + current  - last);
     }
