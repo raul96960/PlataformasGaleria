@@ -1,7 +1,9 @@
-package com.example.progaleria.deteccionDeMovimiento.vista;
+package com.example.progaleria.deteccionDeMovimiento.modelo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+
+import com.example.progaleria.deteccionDeMovimiento.vista.ICamaraDeteccionMovimiento;
 
 public class SensorMovimiento implements SensorEventListener  {
 

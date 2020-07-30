@@ -1,4 +1,4 @@
-package com.example.progaleria.deteccionDeMovimiento.vista;
+package com.example.progaleria.deteccionDeMovimiento.modelo;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
-class Localizacion implements LocationListener {
+public class Localizacion implements LocationListener {
 
     Location locationLast;
 

@@ -44,6 +44,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.progaleria.R;
+import com.example.progaleria.deteccionDeMovimiento.modelo.Localizacion;
+import com.example.progaleria.deteccionDeMovimiento.modelo.SensorMovimiento;
 import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorImp;
 import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorView;
 import com.google.android.gms.maps.model.LatLng;
@@ -67,7 +69,7 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     private static final String TOAST_MENSAJE = "Deje de Mover el dispositivo";
 
     private Toast message;
-    private static final String TAG = "Camara Deteccion";
+    private static final String TAG = "MovimientoCamara";
     private static final int CAMERAID = 0;
     private String cameraId = null;
 
@@ -87,11 +89,13 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     private Localizacion localizacion;
 
     private PresentadorView presentador;
+    private boolean showModal = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camara_deteccion_movimiento);
-        setTitle("Camara2");
+        setTitle("Tomar Foto");
 
         verifyStoragePermissions(this);
         verifyCameraPermissions(this);
@@ -103,53 +107,6 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         presentador = new PresentadorImp(this);
 
     }
-
-    public void initSensorGPS() {
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        localizacion = new Localizacion();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        listenerSensorAcelerometro();
-        listenerGPS();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        message.cancel();
-        unregisterListenerAcelerometro();
-        unregisterListenerGPS();
-
-    }
-
-    public void listenerGPS() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.i("TAG","dsadsaasd");
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, localizacion);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, localizacion);
-    }
-
-    public void unregisterListenerGPS(){
-        locationManager.removeUpdates(localizacion);
-    }
-
-    public void listenerSensorAcelerometro() {
-        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(
-                sensorMovimiento,
-                sensor,
-                SensorManager.SENSOR_DELAY_NORMAL);
-    }
-    public void unregisterListenerAcelerometro() {
-        sensorManager.unregisterListener(sensorMovimiento);
-    }
-
 
     private void initCamara() {
         mSurfaceView = findViewById(R.id.frameLayoutCamera);
@@ -178,25 +135,51 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         message.setGravity(Gravity.CENTER, 0, 0);
     }
 
-    public void initLocalizacion() {
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Localizacion localizacion = new Localizacion();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, localizacion);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, localizacion);
+    public void initSensorGPS() {
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        localizacion = new Localizacion();
     }
 
+    public void listenerGPS() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.i("TAG","dsadsaasd");
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, localizacion);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, localizacion);
+    }
 
+    public void unregisterListenerGPS(){
+        locationManager.removeUpdates(localizacion);
+    }
+
+    public void listenerSensorAcelerometro() {
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(
+                sensorMovimiento,
+                sensor,
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    public void unregisterListenerAcelerometro() {
+        sensorManager.unregisterListener(sensorMovimiento);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listenerSensorAcelerometro();
+        listenerGPS();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        message.cancel();
+        unregisterListenerAcelerometro();
+        unregisterListenerGPS();
+
+    }
 
     private void startCameraCaptureSession() {
 
@@ -227,8 +210,11 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
                         buffer.get(bytes);//Save the byte array from the buffer
 
                         Uri foto = saveFoto(bytes);
+                        showModal = true;
+                        message.cancel();
                         alertDialogPreviewImage(foto);
-                        LatLng ubicacion = localizacion.getLastLatLng();
+
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -301,6 +287,7 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         }
         return imageUri;
     }
+
     private String fileNameUnique(){
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String fileName = timeStamp + ".jpg";
@@ -308,7 +295,8 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         return fileName;
     }
 
-    private void alertDialogPreviewImage(Uri image){
+    private void alertDialogPreviewImage(final Uri image){
+
         AlertDialog.Builder popupDialogBuilder = new AlertDialog.Builder(this);
         ImageView popupImv = new ImageView(this);
         popupImv.setAdjustViewBounds(true);
@@ -317,16 +305,45 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         popupDialogBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Log.i("TAG", "Subiendo Foto ...." + i);
-
-
+                Log.i(TAG, "Subiendo Foto ...." + i);
+                LatLng ubicacion = localizacion.getLastLatLng();
+                presentador.guardarFoto(ubicacion, image);
             }
         });
 
         popupDialogBuilder.setNegativeButton("Cancelar", null);
+        popupDialogBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                Log.i(TAG, "Cerrando Modal");
+                showModal = false;
+            }
+        });
         AlertDialog alertDialog = popupDialogBuilder.create();
 
         alertDialog.show();
+    }
+
+    @Override
+    public void handleAceleracionTotal(float aceleracionTotal) {
+        if(!showModal) {
+            if (aceleracionTotal >= ACELERACION_TOTAL_MAXIMA_ACEPTADA) {
+                message.show();
+            } else {
+                message.cancel();
+            }
+        }
+    }
+
+    @Override
+    public void onSuccess() {
+        Log.i(TAG,"Foto Subida Exitosamente");
+        Toast.makeText(getApplicationContext(),"Foto subida exitosamente", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onError(String message) {
+        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG).show();
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -418,25 +435,4 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     };
 
 
-    @Override
-    public void handleAceleracionTotal(float aceleracionTotal) {
-
-          if(aceleracionTotal >= ACELERACION_TOTAL_MAXIMA_ACEPTADA){
-                message.show();
-            }
-            else{
-                message.cancel();
-            }
-
-    }
-
-    @Override
-    public void onSuccess() {
-        Toast.makeText(getApplicationContext(),"Foto subida exitosamente", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onError(String message) {
-        Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG).show();
-    }
 }
