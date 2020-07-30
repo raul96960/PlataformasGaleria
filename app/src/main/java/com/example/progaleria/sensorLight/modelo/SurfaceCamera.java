@@ -1,17 +1,16 @@
-package com.example.progaleria.sensorOrientacionDispositivo;
-
+package com.example.progaleria.sensorLight.modelo;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class ShowCamera extends SurfaceView implements SurfaceHolder.Callback {
+public class SurfaceCamera extends SurfaceView implements SurfaceHolder.Callback {
 
     private Camera camera;
     private SurfaceHolder holder;
 
-    public ShowCamera(Context context, Camera camera) {
+    public SurfaceCamera(Context context, Camera camera) {
         super(context);
         this.camera = camera;
         holder = getHolder();

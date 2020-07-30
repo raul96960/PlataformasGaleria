@@ -1,7 +1,9 @@
-package com.example.progaleria.sensorLight;
+package com.example.progaleria.sensorLight.modelo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+
+import com.example.progaleria.sensorLight.vista.ICamaraSensorLight;
 
 public class SensorLight implements SensorEventListener  {
 

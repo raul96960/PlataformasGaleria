@@ -44,9 +44,9 @@
             android:label="@string/title_activity_navigation_main" />
         <activity android:name=".registrarse.View.Registrarse" />
         <activity android:name=".login.View.IniciarSesion" />
-        <activity android:name=".sensorLight.CamaraSensorLightActivity" />
+        <activity android:name=".sensorLight.vista.CamaraSensorLightActivity" />
         <activity android:name=".deteccionDeMovimiento.vista.CamaraDeteccionMovimientoActivity" />
-        <activity android:name=".sensorOrientacionDispositivo.CamaraOrientacionActivity" />
+        <activity android:name=".sensorOrientacionDispositivo.vista.CamaraOrientacionActivity" />
         <activity android:name=".SensorGPS.FotoGeoLocalizadaActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

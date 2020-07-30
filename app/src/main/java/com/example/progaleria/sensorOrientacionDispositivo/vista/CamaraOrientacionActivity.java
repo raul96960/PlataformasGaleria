@@ -1,4 +1,4 @@
-package com.example.progaleria.deteccionDeMovimiento.vista;
+package com.example.progaleria.sensorOrientacionDispositivo.vista;
 
 import android.Manifest;
 import android.app.Activity;
@@ -45,12 +45,14 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.progaleria.R;
 import com.example.progaleria.deteccionDeMovimiento.modelo.Localizacion;
-import com.example.progaleria.deteccionDeMovimiento.modelo.SensorMovimiento;
 import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorImp;
 import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorView;
+import com.example.progaleria.deteccionDeMovimiento.vista.Vista;
+import com.example.progaleria.sensorOrientacionDispositivo.modelo.ICamaraSensorOrientation;
+import com.example.progaleria.sensorOrientacionDispositivo.modelo.SensorOrientacion;
 import com.google.android.gms.maps.model.LatLng;
 
-public class CamaraDeteccionMovimientoActivity extends AppCompatActivity implements ICamaraDeteccionMovimiento, Vista {
+public class CamaraOrientacionActivity extends AppCompatActivity implements ICamaraSensorOrientation, Vista {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int REQUEST_EXTERNAL_CAMERA = 2;
     private static final int REQUEST_EXTERNAL_LOCATION = 3;
@@ -65,11 +67,11 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
     };
-    private static final float ACELERACION_TOTAL_MAXIMA_ACEPTADA = 0.30f;
-    private static final String TOAST_MENSAJE = "Deje de Mover el dispositivo";
+
+    private static final String TOAST_MENSAJE = "Disponga el telefono en modo Horizontal";
 
     private Toast message;
-    private static final String TAG = "MovimientoCamara";
+    private static final String TAG = "OrientacionCamara";
     private static final int CAMERAID = 0;
     private String cameraId = null;
 
@@ -83,7 +85,7 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     private CaptureRequest.Builder mPreviewCaptureRequest;
 
     private SensorManager sensorManager;
-    private SensorMovimiento sensorMovimiento;
+    private SensorOrientacion sensorOrientacion;
 
     private LocationManager locationManager;
     private Localizacion localizacion;
@@ -101,7 +103,7 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         verifyCameraPermissions(this);
         verifyLocationPermissions(this);
         initCamara();
-        initSensorMovimiento();
+        initSensorOrientacion();
         initSensorGPS();
         initToast();
         presentador = new PresentadorImp(this);
@@ -125,25 +127,23 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         });
     }
 
-    private void initSensorMovimiento(){
+    private void initSensorOrientacion(){
         sensorManager  = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensorMovimiento = new SensorMovimiento(this);
+        sensorOrientacion = new SensorOrientacion(this);
     }
 
     private void initToast(){
-        message = Toast.makeText(this, TOAST_MENSAJE, Toast.LENGTH_SHORT);
+        message = Toast.makeText(this, TOAST_MENSAJE, Toast.LENGTH_LONG);
         message.setGravity(Gravity.CENTER, 0, 0);
     }
 
     public void initSensorGPS() {
-
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         localizacion = new Localizacion();
     }
 
     public void listenerGPS() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.i("TAG","dsadsaasd");
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, localizacion);
@@ -154,21 +154,22 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
         locationManager.removeUpdates(localizacion);
     }
 
-    public void listenerSensorAcelerometro() {
+    public void listenerSensorOrientacion() {
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(
-                sensorMovimiento,
-                sensor,
-                SensorManager.SENSOR_DELAY_NORMAL);
+        Sensor sensor1 = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        sensorManager.registerListener(sensorOrientacion, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorOrientacion, sensor1, SensorManager.SENSOR_DELAY_NORMAL);
     }
-    public void unregisterListenerAcelerometro() {
-        sensorManager.unregisterListener(sensorMovimiento);
+
+    public void unregisterListenerOrientacion() {
+        sensorManager.unregisterListener(sensorOrientacion);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        listenerSensorAcelerometro();
+        listenerSensorOrientacion();
         listenerGPS();
     }
 
@@ -176,9 +177,8 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     protected void onPause() {
         super.onPause();
         message.cancel();
-        unregisterListenerAcelerometro();
+        unregisterListenerOrientacion();
         unregisterListenerGPS();
-
     }
 
     private void startCameraCaptureSession() {
@@ -213,8 +213,6 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
                         showModal = true;
                         message.cancel();
                         alertDialogPreviewImage(foto);
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -325,9 +323,9 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     }
 
     @Override
-    public void handleAceleracionTotal(float aceleracionTotal) {
+    public void handleOrientationDevice(int orientacion) {
         if(!showModal) {
-            if (aceleracionTotal >= ACELERACION_TOTAL_MAXIMA_ACEPTADA) {
+            if (isVerticalDevice(orientacion)) {
                 message.show();
             } else {
                 message.cancel();
@@ -345,6 +343,10 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
     @Override
     public void onError(String message) {
         Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG).show();
+    }
+
+    private boolean isVerticalDevice(int orientation) {
+        return orientation == SensorOrientacion.ORIENTATION_PORTRAIT || orientation == SensorOrientacion.ORIENTATION_PORTRAIT_REVERSE;
     }
 
     public static void verifyStoragePermissions(Activity activity) {
@@ -381,7 +383,6 @@ public class CamaraDeteccionMovimientoActivity extends AppCompatActivity impleme
             );
         }
     }
-
 
     private SurfaceHolder.Callback surfaceHolderCallback = new SurfaceHolder.Callback() {
         @Override

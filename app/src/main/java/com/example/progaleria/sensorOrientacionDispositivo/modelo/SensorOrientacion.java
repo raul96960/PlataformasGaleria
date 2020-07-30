@@ -1,11 +1,10 @@
-package com.example.progaleria.sensorOrientacionDispositivo;
+package com.example.progaleria.sensorOrientacionDispositivo.modelo;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.ExifInterface;
-import android.util.Log;
 
 public class SensorOrientacion implements SensorEventListener {
 
