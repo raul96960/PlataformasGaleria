@@ -40,14 +40,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".fragments.NavigationMain"
+            android:name=".views.fragments.NavigationMain"
             android:label="@string/title_activity_navigation_main" />
-        <activity android:name=".registrarse.View.Registrarse" />
-        <activity android:name=".login.View.IniciarSesion" />
-        <activity android:name=".sensorLight.vista.CamaraSensorLightActivity" />
-        <activity android:name=".deteccionDeMovimiento.vista.CamaraDeteccionMovimientoActivity" />
-        <activity android:name=".sensorOrientacionDispositivo.vista.CamaraOrientacionActivity" />
-        <activity android:name=".SensorGPS.FotoGeoLocalizadaActivity" />
+        <activity android:name=".views.RegistrarseActivity" />
+        <activity android:name=".views.LoginActivity" />
+        <activity android:name=".views.MiCamaraActivity" />
+        <activity android:name=".views.MiCamara2Activity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

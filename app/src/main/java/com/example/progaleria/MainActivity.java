@@ -2,8 +2,8 @@ package com.example.progaleria;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.example.progaleria.login.View.IniciarSesion;
-import com.example.progaleria.fragments.NavigationMain;
+import com.example.progaleria.views.LoginActivity;
+import com.example.progaleria.views.fragments.NavigationMain;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void startActivityLogin(){
-        Intent intent = new Intent(this, IniciarSesion.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

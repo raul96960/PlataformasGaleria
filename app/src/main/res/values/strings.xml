@@ -23,6 +23,6 @@
     <string name="title_galeria">Galeria</string>
     <string name="title_ubicacion">Ubicación</string>
     <string name="title_activity_maps">Map</string>
-
+    <string name="otros_sensores">Sensor Light y Orientacion</string>
 
 </resources>
