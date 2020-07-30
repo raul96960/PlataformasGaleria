@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -31,6 +32,7 @@ import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorImp;
 import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorView;
 import com.example.progaleria.deteccionDeMovimiento.vista.Vista;
 import com.example.progaleria.sensorLight.modelo.SensorLight;
+import com.example.progaleria.sensorLight.modelo.SensorOrientacion;
 import com.example.progaleria.sensorLight.modelo.SurfaceCamera;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -41,7 +43,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CamaraSensorLightActivity extends AppCompatActivity implements ICamaraSensorLight, Vista {
+public class CamaraSensorLightActivity extends AppCompatActivity implements ICamaraSensorLight, Vista, ICamaraSensorOrientation {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int REQUEST_EXTERNAL_CAMERA = 2;
@@ -60,6 +62,9 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
 
     private final float LIGHT_LIMITE = 2f; //
 
+    private static final String TOAST_MENSAJE = "Disponga el telefono en modo Horizontal";
+
+    private Toast message;
     private String TAG = "LightActivity";
     private SensorManager sensorManager;
     private SensorLight sensorLight;
@@ -73,6 +78,9 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
     private boolean flashMode = false;
 
     private PresentadorView presentador;
+    private boolean showModal = false;
+
+    private SensorOrientacion sensorOrientacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +94,8 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
         initCamera();
         initSensorLight();
         initSensorGPS();
+        initSensorOrientacion();
+        initToast();
         presentador = new PresentadorImp(this);
 
     }
@@ -118,6 +128,17 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
         localizacion = new Localizacion();
     }
 
+
+    private void initSensorOrientacion(){
+        sensorManager  = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorOrientacion = new SensorOrientacion(this);
+    }
+
+    private void initToast(){
+        message = Toast.makeText(this, TOAST_MENSAJE, Toast.LENGTH_LONG);
+        message.setGravity(Gravity.CENTER, 0, 0);
+    }
+
     public void listenerSensorLight() {
         Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         sensorManager.registerListener(
@@ -143,11 +164,24 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
         locationManager.removeUpdates(localizacion);
     }
 
+    public void listenerSensorOrientacion() {
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        Sensor sensor1 = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
+        sensorManager.registerListener(sensorOrientacion, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorOrientacion, sensor1, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    public void unregisterListenerOrientacion() {
+        sensorManager.unregisterListener(sensorOrientacion);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         listenerSensorLight();
         listenerGPS();
+        listenerSensorOrientacion();
 
     }
 
@@ -156,6 +190,7 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
         super.onPause();
         unregisterListenerLight();
         unregisterListenerGPS();
+        unregisterListenerOrientacion();
     }
     /*
      * Recibe la cantidad de luz del ambiente
@@ -231,6 +266,8 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
     private PictureCallback mPictureCallBack = new PictureCallback() {
         @Override
         public void onPictureTaken(byte[] bytes, Camera camera) {
+
+            showModal = true;
             Uri image = saveFoto(bytes);
             alertDialogPreviewImage(image);
         }
@@ -294,7 +331,7 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 Log.i(TAG, "Cerrando Modal");
-              //  showModal = false;
+                showModal = false;
             }
         });
         AlertDialog alertDialog = popupDialogBuilder.create();
@@ -305,12 +342,26 @@ public class CamaraSensorLightActivity extends AppCompatActivity implements ICam
     @Override
     public void onSuccess() {
         Log.i(TAG,"Foto Subida Exitosamente");
-      //  message.cancel();
+        message.cancel();
         Toast.makeText(getApplicationContext(),"Foto subida exitosamente", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onError(String message) {
         Toast.makeText(getApplicationContext(),message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void handleOrientationDevice(int orientacion) {
+        if(!showModal) {
+            if (isVerticalDevice(orientacion)) {
+                message.show();
+            } else {
+                message.cancel();
+            }
+        }
+    }
+    private boolean isVerticalDevice(int orientation) {
+        return orientation == SensorOrientacion.ORIENTATION_PORTRAIT || orientation == SensorOrientacion.ORIENTATION_PORTRAIT_REVERSE;
     }
 }

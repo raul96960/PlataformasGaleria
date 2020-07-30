@@ -48,8 +48,8 @@ import com.example.progaleria.deteccionDeMovimiento.modelo.Localizacion;
 import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorImp;
 import com.example.progaleria.deteccionDeMovimiento.presentador.PresentadorView;
 import com.example.progaleria.deteccionDeMovimiento.vista.Vista;
-import com.example.progaleria.sensorOrientacionDispositivo.modelo.ICamaraSensorOrientation;
-import com.example.progaleria.sensorOrientacionDispositivo.modelo.SensorOrientacion;
+import com.example.progaleria.sensorLight.modelo.SensorOrientacion;
+import com.example.progaleria.sensorLight.vista.ICamaraSensorOrientation;
 import com.google.android.gms.maps.model.LatLng;
 
 public class CamaraOrientacionActivity extends AppCompatActivity implements ICamaraSensorOrientation, Vista {
