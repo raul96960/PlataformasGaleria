@@ -3,6 +3,7 @@ package com.example.progaleria.views;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -77,6 +79,7 @@ public class MiCamara2Activity extends AppCompatActivity implements IDeteccionMo
     private static final String TAG = "MovimientoCamara";
     private static final int CAMERAID = 0;
     private String cameraId = null;
+    private ProgressDialog dialog;
 
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
@@ -109,6 +112,7 @@ public class MiCamara2Activity extends AppCompatActivity implements IDeteccionMo
         initSensorMovimiento();
         initSensorGPS();
         initToast();
+        initProgressDialog();
         presentador = new PresentadorImpMiCamara(this);
 
     }
@@ -120,7 +124,7 @@ public class MiCamara2Activity extends AppCompatActivity implements IDeteccionMo
         mSurfaceHolder.addCallback(surfaceHolderCallback);
         mSurfaceHolder.setFixedSize(640, 480);
 
-        Button btnTakePicture = (Button) findViewById(R.id.btnTomarFoto);
+        ImageButton btnTakePicture = (ImageButton) findViewById(R.id.btnTomarFoto);
         btnTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,6 +142,11 @@ public class MiCamara2Activity extends AppCompatActivity implements IDeteccionMo
     private void initToast(){
         message = Toast.makeText(this, TOAST_MENSAJE, Toast.LENGTH_SHORT);
         message.setGravity(Gravity.CENTER, 0, 0);
+    }
+    private void initProgressDialog(){
+        dialog=new ProgressDialog(this);
+        dialog.setMessage("Subiendo foto");
+        dialog.setCancelable(false);
     }
 
     public void initSensorGPS() {
@@ -313,6 +322,7 @@ public class MiCamara2Activity extends AppCompatActivity implements IDeteccionMo
                 Log.i(TAG, "Subiendo Foto ...." + i);
                 LatLng ubicacion = localizacion.getLastLatLng();
                 presentador.guardarFoto(ubicacion, image);
+                dialog.show();
             }
         });
 
@@ -343,6 +353,7 @@ public class MiCamara2Activity extends AppCompatActivity implements IDeteccionMo
     @Override
     public void onSuccess() {
         Log.i(TAG,"Foto Subida Exitosamente");
+        dialog.dismiss();
         message.cancel();
         Toast.makeText(getApplicationContext(),"Foto subida exitosamente", Toast.LENGTH_SHORT).show();
     }

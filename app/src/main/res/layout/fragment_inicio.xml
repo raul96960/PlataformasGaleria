@@ -15,7 +15,17 @@
         android:layout_width="300dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:text="Localizacion y Deteccion Movimiento"
+        android:text="Tomar Fotografia"
+        android:textColor="@color/colorWhite"
+        android:background="@color/colorPrimary"
+        android:layout_marginVertical="5dp"
+        />
+    <Button
+        android:id="@+id/btnSeleccioneFotoGaleria"
+        android:layout_width="300dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Selecciona una Foto de tu galeria"
         android:textColor="@color/colorWhite"
         android:background="@color/colorPrimary"
         android:layout_marginVertical="5dp"

@@ -8,19 +8,20 @@
 
     >
 
-    <Button
-        android:id="@+id/btnTomarFoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="3dp"
-        android:text="@string/tomarFoto"
-        android:layout_centerHorizontal="true"
-        />
-
     <SurfaceView
         android:id="@+id/frameLayoutCamera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></SurfaceView>
+
+    <ImageButton
+        android:id="@+id/btnTomarFoto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="3dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/boton_redondo"
+        app:srcCompat="@drawable/ic_camera"
+        />
 
 </RelativeLayout>

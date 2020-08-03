@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.SeleccionarFotoActivity">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="10dp"
+        android:layout_margin="8dp" >
+
+        <ImageView
+            android:id="@+id/imgFoto"
+            android:layout_width="match_parent"
+            android:layout_height="540dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            >
+            <TextView
+                android:id="@+id/txtLatitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="altitud"
+                android:background="@android:drawable/screen_background_dark_transparent"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="150dp"/>
+            <TextView
+                android:id="@+id/txtLongitud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="longitud"
+                android:background="@android:drawable/screen_background_dark_transparent"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:paddingLeft="10dp"
+                android:layout_marginRight="150dp"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        >
+
+        <ImageButton
+            android:id="@+id/btnSeleccionarImagen"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/boton_redondo"
+            app:srcCompat="@drawable/ic_add_photo_alterna" />
+
+        <ImageButton
+            android:id="@+id/btnSubirData"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:background="@drawable/boton_redondo"
+            app:srcCompat="@drawable/ic_upload" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
