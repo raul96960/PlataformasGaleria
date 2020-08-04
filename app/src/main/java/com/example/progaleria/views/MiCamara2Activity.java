@@ -72,7 +72,7 @@ public class MiCamara2Activity extends AppCompatActivity implements IDeteccionMo
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
     };
-    private static final float ACELERACION_TOTAL_MAXIMA_ACEPTADA = 0.30f;
+    private static final float ACELERACION_TOTAL_MAXIMA_ACEPTADA = 0.60f;
     private static final String TOAST_MENSAJE = "Deje de Mover el dispositivo";
 
     private Toast message;

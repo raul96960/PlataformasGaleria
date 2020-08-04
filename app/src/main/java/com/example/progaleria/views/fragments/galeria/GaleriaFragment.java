@@ -47,11 +47,12 @@ public class GaleriaFragment extends Fragment implements ViewGaleria {
     @Override
     public void showFotos(List<FotoGaleria> fotos) {
 
-
         try {
             Geocoder a = new Geocoder(getContext());
             for(FotoGaleria foto: fotos){
-                List<Address> address = a.getFromLocation(-16, -71, 1);
+                double latitud = Double.parseDouble(foto.getLatitud());
+                double longitud = Double.parseDouble(foto.getLongitud());
+                List<Address> address = a.getFromLocation(latitud, longitud, 1);
                 String lugar = address.get(0).getCountryName();
                 foto.setLugarDescripcion(lugar);
             }

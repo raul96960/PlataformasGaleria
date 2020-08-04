@@ -45,7 +45,8 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.Galeriav
     @Override
     public void onBindViewHolder(@NonNull final GaleriaviewHolder holder, int position) {
 
-        holder.txtTitulo.setText(listaFotosGaleria.get(position).getLugarDescripcion().toUpperCase());
+        String lugar = listaFotosGaleria.get(position).getLugarDescripcion() !=null ? listaFotosGaleria.get(position).getLugarDescripcion().toUpperCase() : "Desconocido";
+        holder.txtTitulo.setText(lugar);
         holder.txtLatitud.setText("LATITUD: "+listaFotosGaleria.get(position).getLatitud());
         holder.txtLongitud.setText("LONGITUD: "+listaFotosGaleria.get(position).getLongitud());
 

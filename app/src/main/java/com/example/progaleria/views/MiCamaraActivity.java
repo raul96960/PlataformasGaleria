@@ -68,7 +68,7 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
             Manifest.permission.ACCESS_COARSE_LOCATION,
     };
 
-    private final float LIGHT_LIMITE = 2f; //
+    private final float LIGHT_LIMITE = 10f; //
 
     private static final String TOAST_MENSAJE = "Disponga el telefono en modo Horizontal";
 
