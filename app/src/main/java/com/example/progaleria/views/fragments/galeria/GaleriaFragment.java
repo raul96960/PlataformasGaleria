@@ -1,6 +1,9 @@
 package com.example.progaleria.views.fragments.galeria;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +19,12 @@ import com.example.progaleria.models.FotoGaleria;
 import com.example.progaleria.models.GaleriaAdapter;
 import com.example.progaleria.presenters.PresenterGaleriaImp;
 import com.example.progaleria.presenters.interfaces.PresenterViewGaleria;
+import com.example.progaleria.views.interfaces.ViewGaleria;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GaleriaFragment extends Fragment implements ViewGaleria{
+public class GaleriaFragment extends Fragment implements ViewGaleria {
 
     private RecyclerView mRecyclerView;
     private GaleriaAdapter mGaleriaAdapter;
@@ -42,6 +46,21 @@ public class GaleriaFragment extends Fragment implements ViewGaleria{
 
     @Override
     public void showFotos(List<FotoGaleria> fotos) {
+
+
+        try {
+            Geocoder a = new Geocoder(getContext());
+            for(FotoGaleria foto: fotos){
+                List<Address> address = a.getFromLocation(-16, -71, 1);
+                String lugar = address.get(0).getCountryName();
+                foto.setLugarDescripcion(lugar);
+            }
+
+        }
+        catch(Exception e){
+            Log.e("GaleriaFragment",e.getMessage());
+        }
+
         mGaleriaAdapter = new GaleriaAdapter(getContext(), (ArrayList<FotoGaleria>) fotos);
         mRecyclerView.setAdapter(mGaleriaAdapter);
     }

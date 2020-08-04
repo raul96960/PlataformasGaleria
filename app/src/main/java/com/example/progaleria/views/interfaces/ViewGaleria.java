@@ -1,4 +1,4 @@
-package com.example.progaleria.views.fragments.galeria;
+package com.example.progaleria.views.interfaces;
 
 import com.example.progaleria.models.FotoGaleria;
 import com.example.progaleria.models.GaleriaAdapter;

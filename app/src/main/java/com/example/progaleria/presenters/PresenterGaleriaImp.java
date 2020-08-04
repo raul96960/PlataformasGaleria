@@ -5,7 +5,7 @@ import com.example.progaleria.models.interfaces.ModelGaleria;
 import com.example.progaleria.models.ModelGaleriaImp;
 import com.example.progaleria.presenters.interfaces.PresenterModelGaleria;
 import com.example.progaleria.presenters.interfaces.PresenterViewGaleria;
-import com.example.progaleria.views.fragments.galeria.ViewGaleria;
+import com.example.progaleria.views.interfaces.ViewGaleria;
 
 import java.util.List;
 

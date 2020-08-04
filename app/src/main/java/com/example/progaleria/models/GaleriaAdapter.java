@@ -1,6 +1,8 @@
 package com.example.progaleria.models;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.progaleria.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //https://github.com/bumptech/glide
 public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.GaleriaviewHolder> {
@@ -41,10 +44,10 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.Galeriav
 
     @Override
     public void onBindViewHolder(@NonNull final GaleriaviewHolder holder, int position) {
-        //holder.txtTitulo.setText("TITULO: "+listaFotosGaleria.get(position).getNombreFOTO());
+
+        holder.txtTitulo.setText(listaFotosGaleria.get(position).getLugarDescripcion().toUpperCase());
         holder.txtLatitud.setText("LATITUD: "+listaFotosGaleria.get(position).getLatitud());
         holder.txtLongitud.setText("LONGITUD: "+listaFotosGaleria.get(position).getLongitud());
-        //holder.imgFoto.setImageResource(R.drawable.ic_launcher_background);
 
          Glide.with(mContext)
                 .load(listaFotosGaleria.get(position).getUrl())
@@ -52,28 +55,6 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.Galeriav
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.imgFoto);
 
-        //final GaleriaviewHolder mholder = holder;
-        /*
-        Glide.with(mContext)
-                .load(listaFotosGaleria.get(position).getUrlIMG())
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        holder.mProgresbar.setVisibility(View.INVISIBLE);
-                        holder.imgFoto.setVisibility(View.VISIBLE);
-                        holder.imgFoto.setImageResource(R.drawable.ic_launcher_background);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        holder.mProgresbar.setVisibility(View.GONE);
-                        holder.imgFoto.setVisibility(View.VISIBLE);
-                        return false;
-                    }
-                })
-                .into(holder.imgFoto);
-            */
 
     }
 
@@ -88,14 +69,14 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.Galeriav
      */
     public class GaleriaviewHolder extends RecyclerView.ViewHolder{
         public ImageView imgFoto;
-        //public TextView txtTitulo;
+        public TextView txtTitulo;
         public TextView txtLatitud;
         public TextView txtLongitud;
-        public ProgressBar mProgresbar;
+       // public ProgressBar mProgresbar;
 
         public GaleriaviewHolder(@NonNull View itemView) {
             super(itemView);
-            //this.txtTitulo = itemView.findViewById(R.id.txt_titulo);
+            this.txtTitulo = itemView.findViewById(R.id.txt_titulo);
             this.txtLatitud = itemView.findViewById(R.id.txt_latitud);
             this.txtLongitud = itemView.findViewById(R.id.txt_longitud);
             this.imgFoto = itemView.findViewById(R.id.img_foto);

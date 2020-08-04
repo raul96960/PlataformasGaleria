@@ -2,11 +2,13 @@ package com.example.progaleria.models;
 
 public class FotoGaleria {
 
+    private static final String LUGAR_DEFAULT = "Desconocido";
     private String id;
     private String nombreFOTO;
     private String url;
     private String latitud;
     private String longitud;
+    private String lugarDescripcion;
 
     public FotoGaleria() {
     }
@@ -15,6 +17,14 @@ public class FotoGaleria {
         this.url = urlIMG;
         this.latitud = latitud;
         this.longitud = longitud;
+        this.lugarDescripcion = LUGAR_DEFAULT;
+    }
+
+    public void setLugarDescripcion(String lugar){
+        lugarDescripcion = lugar;
+    }
+    public String getLugarDescripcion(){
+        return lugarDescripcion;
     }
 
     public String getId() {
