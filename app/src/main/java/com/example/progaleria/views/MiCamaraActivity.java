@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -22,6 +23,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -85,6 +87,7 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
 
     private PresentadorViewMiCamara presentador;
     private boolean showModal = false;
+    private ProgressDialog progressDialog;
 
     private SensorOrientacion sensorOrientacion;
 
@@ -102,6 +105,7 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
         initSensorGPS();
         initSensorOrientacion();
         initToast();
+        initProgressDialog();
         presentador = new PresentadorImpMiCamara(this);
 
     }
@@ -112,7 +116,7 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
         surfaceCamera = new SurfaceCamera(this, camera);
         frameLayout.addView(surfaceCamera);
 
-        Button btnTakePicture = (Button) findViewById(R.id.btnTomarFoto);
+        Button btnTakePicture = findViewById(R.id.btnTomarFoto);
         btnTakePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,6 +147,12 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
     private void initToast(){
         message = Toast.makeText(this, TOAST_MENSAJE, Toast.LENGTH_LONG);
         message.setGravity(Gravity.CENTER, 0, 0);
+    }
+
+    private void initProgressDialog(){
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Subiendo foto");
+        progressDialog.setCancelable(false);
     }
 
     public void listenerSensorLight() {
@@ -206,17 +216,20 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
      */
     @Override
     public void handleSensorLight(float light) {
-        if (light <= LIGHT_LIMITE) {
-            if (!flashMode) {
-                flashMode = true;
-                activarFlashModeCamera();
-                Toast.makeText(this, "Habilitando Flash", Toast.LENGTH_LONG).show();
-            }
-        } else {
-            if (flashMode) {
-                flashMode = false;
-                desactivarFlashModeCamera();
-                Toast.makeText(this, "Desabilitando Flash", Toast.LENGTH_LONG).show();
+
+        if(!showModal && !progressDialog.isShowing()) {
+            if (light <= LIGHT_LIMITE) {
+                if (!flashMode) {
+                    flashMode = true;
+                    activarFlashModeCamera();
+                    Toast.makeText(this, "Habilitando Flash", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                if (flashMode) {
+                    flashMode = false;
+                    desactivarFlashModeCamera();
+                    Toast.makeText(this, "Desabilitando Flash", Toast.LENGTH_LONG).show();
+                }
             }
         }
     }
@@ -359,8 +372,18 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
     }
 
     @Override
+    public void showProgressDialog() {
+        progressDialog.show();
+    }
+
+    @Override
+    public void hideProgressDialog() {
+        progressDialog.dismiss();
+    }
+
+    @Override
     public void handleOrientationDevice(int orientacion) {
-        if(!showModal) {
+        if(!showModal && !progressDialog.isShowing()) {
             if (isVerticalDevice(orientacion)) {
                 message.show();
             } else {

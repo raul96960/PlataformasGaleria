@@ -21,15 +21,18 @@ public class PresentadorImpMiCamara implements PresentadorModelMiCamara, Present
     @Override
     public void onSuccess() {
         vista.onSuccess();
+        vista.hideProgressDialog();
     }
 
     @Override
     public void onError(String message) {
         vista.onError(message);
+        vista.hideProgressDialog();
     }
 
     @Override
     public void guardarFoto(LatLng latLng, Uri uriImage) {
         modelo.guardarFoto(uriImage, latLng);
+        vista.showProgressDialog();
     }
 }

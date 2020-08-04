@@ -9,13 +9,20 @@
 
     <Button
         android:id="@+id/btnTomarFoto"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="3dp"
         android:text="@string/tomarFoto"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/round_bg"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"
         />
+
+
+
 
     <FrameLayout
         android:id="@+id/frameLayoutCamera"
