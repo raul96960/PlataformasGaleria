@@ -13,7 +13,6 @@ public class Localizacion implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         locationLast = location;
-
     }
 
     @Override

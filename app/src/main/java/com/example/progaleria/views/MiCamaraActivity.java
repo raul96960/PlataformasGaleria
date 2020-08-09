@@ -50,6 +50,7 @@ import java.util.Date;
 * API Camara
 * -Sensor Light : Activar y Desactivar Flash
 * -Sensor Orientacion: Orientacion del Dispositivo
+* -Localizacion GPS
 * */
 public class MiCamaraActivity extends AppCompatActivity implements ISensorLight, ViewMiCamara, ISensorOrientation {
 
@@ -286,7 +287,6 @@ public class MiCamaraActivity extends AppCompatActivity implements ISensorLight,
     private PictureCallback mPictureCallBack = new PictureCallback() {
         @Override
         public void onPictureTaken(byte[] bytes, Camera camera) {
-
             showModal = true;
             Uri image = saveFoto(bytes);
             alertDialogPreviewImage(image);

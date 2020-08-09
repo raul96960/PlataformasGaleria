@@ -83,7 +83,6 @@ public class MapaFragment extends Fragment implements OnMapReadyCallback, Google
                 presentador.obtenerFotos();
             }
         });
-
     }
 
     @Override

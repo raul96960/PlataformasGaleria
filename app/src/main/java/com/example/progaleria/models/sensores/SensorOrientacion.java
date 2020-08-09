@@ -15,7 +15,7 @@ public class SensorOrientacion implements SensorEventListener {
     public static final int ORIENTATION_LANDSCAPE = ExifInterface.ORIENTATION_NORMAL; // 1
     public static final int ORIENTATION_PORTRAIT_REVERSE = ExifInterface.ORIENTATION_ROTATE_270; // 8
 
-    int smoothness = 1;
+    int smoothness = 2;
     private float averagePitch = 0;
     private float averageRoll = 0;
 
@@ -65,7 +65,7 @@ public class SensorOrientacion implements SensorEventListener {
 
 
     }
-
+    /*Filtro Simple Moving Average SMA*/
     private float addValue(float value, float[] values) {
         value = (float) Math.round((Math.toDegrees(value)));
         float average = 0;

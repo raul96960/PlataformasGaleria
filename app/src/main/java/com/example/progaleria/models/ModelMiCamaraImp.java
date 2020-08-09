@@ -52,7 +52,6 @@ public class ModelMiCamaraImp implements ModelMiCamara {
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-
                     if (task.isSuccessful()){
                         Uri uri = task.getResult();
 
@@ -62,7 +61,7 @@ public class ModelMiCamaraImp implements ModelMiCamara {
                         foto.setUrl(uri.toString());
 
                         referenceFotos.push().setValue(foto);
-                       presentador.onSuccess();
+                        presentador.onSuccess();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
